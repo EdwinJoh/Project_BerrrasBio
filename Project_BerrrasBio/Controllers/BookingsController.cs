@@ -6,15 +6,16 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Project_BerrrasBio.Data;
 using Project_BerrrasBio.Models;
 
 namespace Project_BerrrasBio.Controllers
 {
     public class BookingsController : Controller
     {
-        private readonly BerrasBioContext _context;
+        private readonly Project_BerrrasBioContext _context;
 
-        public BookingsController(BerrasBioContext context)
+        public BookingsController(Project_BerrrasBioContext context)
         {
             _context = context;
         }
@@ -22,8 +23,8 @@ namespace Project_BerrrasBio.Controllers
         // GET: Bookings
         public async Task<IActionResult> Index()
         {
-            var berrasBioContext = _context.Bookings.Include(b => b.Movie);
-            return View(await berrasBioContext.ToListAsync());
+            var project_BerrrasBioContext = _context.Booking.Include(b => b.Movie);
+            return View(await project_BerrrasBioContext.ToListAsync());
         }
 
         // GET: Bookings/Details/5
@@ -34,7 +35,7 @@ namespace Project_BerrrasBio.Controllers
                 return NotFound();
             }
 
-            var booking = await _context.Bookings
+            var booking = await _context.Booking
                 .Include(b => b.Movie)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (booking == null)
@@ -48,7 +49,7 @@ namespace Project_BerrrasBio.Controllers
         // GET: Bookings/Create
         public IActionResult Create()
         {
-            ViewData["MovieId"] = new SelectList(_context.Movies, "Id", "Id");
+            ViewData["MovieId"] = new SelectList(_context.Set<Movie>(), "Id", "Id");
             return View();
         }
 
@@ -65,7 +66,7 @@ namespace Project_BerrrasBio.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["MovieId"] = new SelectList(_context.Movies, "Id", "Id", booking.MovieId);
+            ViewData["MovieId"] = new SelectList(_context.Set<Movie>(), "Id", "Id", booking.MovieId);
             return View(booking);
         }
 
@@ -77,12 +78,12 @@ namespace Project_BerrrasBio.Controllers
                 return NotFound();
             }
 
-            var booking = await _context.Bookings.FindAsync(id);
+            var booking = await _context.Booking.FindAsync(id);
             if (booking == null)
             {
                 return NotFound();
             }
-            ViewData["MovieId"] = new SelectList(_context.Movies, "Id", "Id", booking.MovieId);
+            ViewData["MovieId"] = new SelectList(_context.Set<Movie>(), "Id", "Id", booking.MovieId);
             return View(booking);
         }
 
@@ -118,7 +119,7 @@ namespace Project_BerrrasBio.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["MovieId"] = new SelectList(_context.Movies, "Id", "Id", booking.MovieId);
+            ViewData["MovieId"] = new SelectList(_context.Set<Movie>(), "Id", "Id", booking.MovieId);
             return View(booking);
         }
 
@@ -130,7 +131,7 @@ namespace Project_BerrrasBio.Controllers
                 return NotFound();
             }
 
-            var booking = await _context.Bookings
+            var booking = await _context.Booking
                 .Include(b => b.Movie)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (booking == null)
@@ -146,15 +147,15 @@ namespace Project_BerrrasBio.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var booking = await _context.Bookings.FindAsync(id);
-            _context.Bookings.Remove(booking);
+            var booking = await _context.Booking.FindAsync(id);
+            _context.Booking.Remove(booking);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool BookingExists(int id)
         {
-            return _context.Bookings.Any(e => e.Id == id);
+            return _context.Booking.Any(e => e.Id == id);
         }
     }
 }

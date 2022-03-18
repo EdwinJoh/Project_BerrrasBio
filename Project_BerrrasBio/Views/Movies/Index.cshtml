@@ -1,16 +1,14 @@
 ﻿@model IEnumerable<Project_BerrrasBio.Models.Movie>
 
 @{
-    ViewData["Title"] = "Movies";
+    ViewData["Title"] = "Index";
 }
 
-<h1>Movies</h1>
+<h1>Index</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-
-
 <div class="accordion" id="accordionExample">
     @{
         string open = "true";
@@ -36,7 +34,7 @@
             <div id="@s" class="@myClass" aria-labelledby="@x" data-bs-parent="#accordionExample">
                 <div class="accordion-body">
                     <p>@Html.DisplayFor(modelItem => item.Description)</p>
-            <a class="btn btn-primary"  asp-controller="Bookings" role="button">Tickets</a>
+            <a class="btn btn-primary"  asp-controller="Bookings" role="button">Book Now</a>
                 </div>
             </div>
 

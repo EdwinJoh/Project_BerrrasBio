@@ -9,40 +9,33 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<div class="accordion" id="accordionExample">
-    @{
-        string open = "true";
-        string myClass = "accordion-collapse collapse show";
-    }
-
-    @foreach (var item in Model)
-    {
-        string s = item.Name.Substring(0, 3) + item.Id;
-        string x = item.Name.Substring(0, 3) + "ID" + item.Id;
-        string s1 = "#" + s;
-
-        <div class="accordion-item">
-            <h2 class="accordion-header" id="@x">
-                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="@s1" aria-expanded="@open" aria-controls="@s">
-                    <div class="Salons">
-                  <h2>  @Html.DisplayFor(modelItem => item.Name)</h2>
-                    </div>
-                </button>
-            </h2>
-            <div id="@s" class="@myClass" aria-labelledby="@x" data-bs-parent="#accordionExample">
-                <div class="accordion-body">
-                    Seats in Salon: @Html.DisplayFor(modelItem => item.Seats ) 
-
-
-                 
-                </div>
-            </div>
-
-        </div>
-        open = "false";
-        myClass = "accordion-collapse collapse";
-
-    }
-</div>
-
-
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Seats)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Seats)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

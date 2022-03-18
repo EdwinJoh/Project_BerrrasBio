@@ -1,13 +1,17 @@
 using Microsoft.EntityFrameworkCore;
 using Project_BerrrasBio.Models;
+using Microsoft.Extensions.DependencyInjection;
+using Project_BerrrasBio.Data;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDbContext<Project_BerrrasBioContext>(options =>
+
+    options.UseSqlServer(builder.Configuration.GetConnectionString("Project_BerrrasBioContext")));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddDbContext<BerrasBioContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("BerrasBio")));
 
 var app = builder.Build();
 

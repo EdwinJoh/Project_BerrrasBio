@@ -6,15 +6,16 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Project_BerrrasBio.Data;
 using Project_BerrrasBio.Models;
 
 namespace Project_BerrrasBio.Controllers
 {
     public class SalonsController : Controller
     {
-        private readonly BerrasBioContext _context;
+        private readonly Project_BerrrasBioContext _context;
 
-        public SalonsController(BerrasBioContext context)
+        public SalonsController(Project_BerrrasBioContext context)
         {
             _context = context;
         }
@@ -22,8 +23,7 @@ namespace Project_BerrrasBio.Controllers
         // GET: Salons
         public async Task<IActionResult> Index()
         {
-            var berrasBioContext = _context.Shows.Include(s => s.Movie);
-            return View(await _context.Salons.ToListAsync());
+            return View(await _context.Salon.ToListAsync());
         }
 
         // GET: Salons/Details/5
@@ -34,7 +34,7 @@ namespace Project_BerrrasBio.Controllers
                 return NotFound();
             }
 
-            var salon = await _context.Salons
+            var salon = await _context.Salon
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (salon == null)
             {
@@ -74,7 +74,7 @@ namespace Project_BerrrasBio.Controllers
                 return NotFound();
             }
 
-            var salon = await _context.Salons.FindAsync(id);
+            var salon = await _context.Salon.FindAsync(id);
             if (salon == null)
             {
                 return NotFound();
@@ -125,7 +125,7 @@ namespace Project_BerrrasBio.Controllers
                 return NotFound();
             }
 
-            var salon = await _context.Salons
+            var salon = await _context.Salon
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (salon == null)
             {
@@ -140,15 +140,15 @@ namespace Project_BerrrasBio.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var salon = await _context.Salons.FindAsync(id);
-            _context.Salons.Remove(salon);
+            var salon = await _context.Salon.FindAsync(id);
+            _context.Salon.Remove(salon);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool SalonExists(int id)
         {
-            return _context.Salons.Any(e => e.Id == id);
+            return _context.Salon.Any(e => e.Id == id);
         }
     }
 }

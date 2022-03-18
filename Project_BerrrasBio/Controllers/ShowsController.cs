@@ -6,24 +6,31 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Project_BerrrasBio.Data;
 using Project_BerrrasBio.Models;
 
 namespace Project_BerrrasBio.Controllers
 {
     public class ShowsController : Controller
     {
-        private readonly BerrasBioContext _context;
+        private readonly Project_BerrrasBioContext _context;
 
-        public ShowsController(BerrasBioContext context)
+        public ShowsController(Project_BerrrasBioContext context)
         {
             _context = context;
         }
 
         // GET: Shows
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder)
         {
-            var berrasBioContext = _context.Shows.Include(s => s.Movie).Include(s => s.Salon);
-            return View(await berrasBioContext.ToListAsync());
+
+
+            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewBag.DateSortParm = sortOrder == "Price" ? "date_desc" : "Price";
+
+            var project_BerrrasBioContext = _context.Show.Include(s => s.Movie).Include(s => s.Salon);
+
+            return View(await project_BerrrasBioContext.ToListAsync());
         }
 
         // GET: Shows/Details/5
@@ -34,7 +41,7 @@ namespace Project_BerrrasBio.Controllers
                 return NotFound();
             }
 
-            var show = await _context.Shows
+            var show = await _context.Show
                 .Include(s => s.Movie)
                 .Include(s => s.Salon)
                 .FirstOrDefaultAsync(m => m.Id == id);
@@ -49,8 +56,8 @@ namespace Project_BerrrasBio.Controllers
         // GET: Shows/Create
         public IActionResult Create()
         {
-            ViewData["MovieId"] = new SelectList(_context.Movies, "Id", "Id");
-            ViewData["SalonId"] = new SelectList(_context.Salons, "Id", "Id");
+            ViewData["MovieId"] = new SelectList(_context.Movie, "Id", "Id");
+            ViewData["SalonId"] = new SelectList(_context.Salon, "Id", "Id");
             return View();
         }
 
@@ -67,8 +74,8 @@ namespace Project_BerrrasBio.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["MovieId"] = new SelectList(_context.Movies, "Id", "Id", show.MovieId);
-            ViewData["SalonId"] = new SelectList(_context.Salons, "Id", "Id", show.SalonId);
+            ViewData["MovieId"] = new SelectList(_context.Movie, "Id", "Id", show.MovieId);
+            ViewData["SalonId"] = new SelectList(_context.Salon, "Id", "Id", show.SalonId);
             return View(show);
         }
 
@@ -80,13 +87,13 @@ namespace Project_BerrrasBio.Controllers
                 return NotFound();
             }
 
-            var show = await _context.Shows.FindAsync(id);
+            var show = await _context.Show.FindAsync(id);
             if (show == null)
             {
                 return NotFound();
             }
-            ViewData["MovieId"] = new SelectList(_context.Movies, "Id", "Id", show.MovieId);
-            ViewData["SalonId"] = new SelectList(_context.Salons, "Id", "Id", show.SalonId);
+            ViewData["MovieId"] = new SelectList(_context.Movie, "Id", "Id", show.MovieId);
+            ViewData["SalonId"] = new SelectList(_context.Salon, "Id", "Id", show.SalonId);
             return View(show);
         }
 
@@ -122,8 +129,8 @@ namespace Project_BerrrasBio.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["MovieId"] = new SelectList(_context.Movies, "Id", "Id", show.MovieId);
-            ViewData["SalonId"] = new SelectList(_context.Salons, "Id", "Id", show.SalonId);
+            ViewData["MovieId"] = new SelectList(_context.Movie, "Id", "Id", show.MovieId);
+            ViewData["SalonId"] = new SelectList(_context.Salon, "Id", "Id", show.SalonId);
             return View(show);
         }
 
@@ -135,7 +142,7 @@ namespace Project_BerrrasBio.Controllers
                 return NotFound();
             }
 
-            var show = await _context.Shows
+            var show = await _context.Show
                 .Include(s => s.Movie)
                 .Include(s => s.Salon)
                 .FirstOrDefaultAsync(m => m.Id == id);
@@ -152,15 +159,15 @@ namespace Project_BerrrasBio.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var show = await _context.Shows.FindAsync(id);
-            _context.Shows.Remove(show);
+            var show = await _context.Show.FindAsync(id);
+            _context.Show.Remove(show);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool ShowExists(int id)
         {
-            return _context.Shows.Any(e => e.Id == id);
+            return _context.Show.Any(e => e.Id == id);
         }
     }
 }

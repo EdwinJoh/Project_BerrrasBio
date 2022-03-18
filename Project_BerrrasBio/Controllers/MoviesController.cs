@@ -6,15 +6,16 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Project_BerrrasBio.Data;
 using Project_BerrrasBio.Models;
 
 namespace Project_BerrrasBio.Controllers
 {
     public class MoviesController : Controller
     {
-        private readonly BerrasBioContext _context;
+        private readonly Project_BerrrasBioContext _context;
 
-        public MoviesController(BerrasBioContext context)
+        public MoviesController(Project_BerrrasBioContext context)
         {
             _context = context;
         }
@@ -22,7 +23,7 @@ namespace Project_BerrrasBio.Controllers
         // GET: Movies
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Movies.ToListAsync());
+            return View(await _context.Movie.ToListAsync());
         }
 
         // GET: Movies/Details/5
@@ -33,7 +34,7 @@ namespace Project_BerrrasBio.Controllers
                 return NotFound();
             }
 
-            var movie = await _context.Movies
+            var movie = await _context.Movie
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (movie == null)
             {
@@ -54,7 +55,7 @@ namespace Project_BerrrasBio.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,CoverUrl,Discription,Price")] Movie movie)
+        public async Task<IActionResult> Create([Bind("Id,Title,CoverUrl,Description,Price")] Movie movie)
         {
             if (ModelState.IsValid)
             {
@@ -73,7 +74,7 @@ namespace Project_BerrrasBio.Controllers
                 return NotFound();
             }
 
-            var movie = await _context.Movies.FindAsync(id);
+            var movie = await _context.Movie.FindAsync(id);
             if (movie == null)
             {
                 return NotFound();
@@ -86,7 +87,7 @@ namespace Project_BerrrasBio.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,CoverUrl,Discription,Price")] Movie movie)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,CoverUrl,Description,Price")] Movie movie)
         {
             if (id != movie.Id)
             {
@@ -124,7 +125,7 @@ namespace Project_BerrrasBio.Controllers
                 return NotFound();
             }
 
-            var movie = await _context.Movies
+            var movie = await _context.Movie
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (movie == null)
             {
@@ -139,15 +140,15 @@ namespace Project_BerrrasBio.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var movie = await _context.Movies.FindAsync(id);
-            _context.Movies.Remove(movie);
+            var movie = await _context.Movie.FindAsync(id);
+            _context.Movie.Remove(movie);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool MovieExists(int id)
         {
-            return _context.Movies.Any(e => e.Id == id);
+            return _context.Movie.Any(e => e.Id == id);
         }
     }
 }
