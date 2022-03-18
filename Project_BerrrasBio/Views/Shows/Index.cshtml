@@ -1,0 +1,55 @@
+﻿@model IEnumerable<Project_BerrrasBio.Models.Show>
+
+@{
+    ViewData["Title"] = "Shows";
+}
+
+<h1> Shows </h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Movie)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Salon)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ShowTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Movie.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Salon.Seats)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Movie.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Salon.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ShowTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Movie.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Salon.Seats)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

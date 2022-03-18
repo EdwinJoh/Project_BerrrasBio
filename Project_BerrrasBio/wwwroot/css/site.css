@@ -1,0 +1,64 @@
+* {
+    padding: 0px;
+    margin: 0px;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
+}
+
+.newMovieContainer {
+    width: 100%;
+    display: inline-flex;
+}
+
+.newMovies {
+    width: 50%;
+}
+
+    .newMovies img {
+        height: 20vh;
+        width: auto;
+    }
+
+
+.movieNight {
+    display: inline-flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+    .movieNight img {
+        width: 30%;
+        justify-self: stretch;
+        padding: 0px;
+        margin: 0px;
+    }
+
+    .movieNight h2 {
+        width: 60%;
+        padding: 1em;
+        margin: 1em;
+    }
+
+    .movieNight p {
+        width: auto;
+        margin: 0em 2em 0em 0em;
+    }

@@ -1,0 +1,49 @@
+﻿@model IEnumerable<Project_BerrrasBio.Models.Movie>
+
+@{
+    ViewData["Title"] = "Movies";
+}
+
+<h1>Movies</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+
+<div class="accordion" id="accordionExample">
+    @{
+        string open = "true";
+        string myClass = "accordion-collapse collapse show";
+    }
+
+    @foreach (var item in Model)
+    {
+        string s = item.Title.Substring(0, 3) + item.Id;
+        string x = item.Title.Substring(0, 3) + "ID" + item.Id;
+        string s1 = "#" + s;
+
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="@x">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="@s1" aria-expanded="@open" aria-controls="@s">
+                    <div class="movieNight">
+                        <img src="@Html.DisplayFor(modelItem => item.CoverUrl)">
+                        <h2>@Html.DisplayFor(modelItem => item.Title)</h2>
+                        <p>@Html.DisplayFor(modelItem => item.Price)</p>
+                    </div>
+                </button>
+            </h2>
+            <div id="@s" class="@myClass" aria-labelledby="@x" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <p>@Html.DisplayFor(modelItem => item.Description)</p>
+            <a class="btn btn-primary"  asp-controller="Bookings" role="button">Tickets</a>
+                </div>
+            </div>
+
+        </div>
+        open = "false";
+        myClass = "accordion-collapse collapse";
+
+    }
+</div>
+
