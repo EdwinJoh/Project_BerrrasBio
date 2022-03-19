@@ -23,12 +23,12 @@ namespace Project_BerrrasBio.Controllers
         // GET: Shows
         public async Task<IActionResult> Index(string sortOrder)
         {
-
-
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-            ViewBag.DateSortParm = sortOrder == "Price" ? "date_desc" : "Price";
+            ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
+            var bookings = _context.Booking.ToList();
+            ViewData["Bookingssss"] = bookings;
 
-            var project_BerrrasBioContext = _context.Show.Include(s => s.Movie).Include(s => s.Salon);
+            var project_BerrrasBioContext = _context.Show.Include(s => s.Movie).Include(s => s.Salon).Include(s => s.Booking);
 
             return View(await project_BerrrasBioContext.ToListAsync());
         }

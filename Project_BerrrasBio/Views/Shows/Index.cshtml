@@ -13,7 +13,8 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.ShowTime)
+                @*@Html.DisplayNameFor(model => model.ShowTime)*@
+                @Html.ActionLink("ShowTime", "Index", new { sortOrder = ViewBag.NameSortParm })
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Movie)
@@ -22,16 +23,17 @@
                 @Html.DisplayNameFor(model => model.Salon)
             </th>
             <th>
-               @* @Html.DisplayNameFor(model => model.Movie.Price)*@
-               @Html.ActionLink("Price","Index" , new { sortOrder = ViewBag.PriceSort})
+                @Html.DisplayNameFor(model => model.Salon.Seats)
+
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Salon.Seats)
+                seats left
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
+
         @foreach (var item in Model)
         {
             <tr>
@@ -45,10 +47,27 @@
                     @Html.DisplayFor(modelItem => item.Salon.Name)
                 </td>
                 <td>
+                  
                     @Html.DisplayFor(modelItem => item.Salon.Seats)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Movie.Price)
+                    @{
+                        int countBookings;
+                        int seatLeft;
+                        List<int> test = new List<int>();
+                        foreach (var book in (ViewData["Bookingssss"] as List<Booking> ))
+                        {
+                            countBookings =- (int)book.NumOfSeats;
+                            test.Add(countBookings);
+
+                        }
+                        
+
+                            
+
+                          //countBookings = (int)item.Salon.Seats;
+                    }
+                    <td>@test.Sum()</td>
                 </td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
@@ -57,5 +76,32 @@
                 </td>
             </tr>
         }
+
+
+        @* @foreach (var item in Model)
+            {
+            <tr>
+            <td>
+            @Html.DisplayFor(modelItem => item.ShowTime)
+            </td>
+            <td>
+            @Html.DisplayFor(modelItem => item.Movie.Title)
+            </td>
+            <td>
+            @Html.DisplayFor(modelItem => item.Salon.Name)
+            </td>
+            <td>
+            @Html.DisplayFor(modelItem => item.Salon.Seats)
+            </td>
+            <td>
+            @Html.DisplayFor(modelItem => item.Movie.Price)
+            </td>
+            <td>
+            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+            <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+            </tr>
+            }*@
     </tbody>
 </table>

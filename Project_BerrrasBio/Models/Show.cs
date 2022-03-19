@@ -12,5 +12,6 @@ namespace Project_BerrrasBio.Models
 
         public virtual Movie? Movie { get; set; }
         public virtual Salon? Salon { get; set; }
+        public virtual IEnumerable<Booking>? Booking { get; set; }
     }
 }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Project_BerrrasBio.Data;
 
@@ -11,9 +12,10 @@ using Project_BerrrasBio.Data;
 namespace Project_BerrrasBio.Migrations
 {
     [DbContext(typeof(Project_BerrrasBioContext))]
-    partial class Project_BerrrasBioContextModelSnapshot : ModelSnapshot
+    [Migration("20220319072407_inti3")]
+    partial class inti3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -36,17 +38,9 @@ namespace Project_BerrrasBio.Migrations
                     b.Property<int?>("NumOfSeats")
                         .HasColumnType("int");
 
-                    b.Property<int>("ShowtimeID")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("showsId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("MovieId");
-
-                    b.HasIndex("showsId");
 
                     b.ToTable("Booking");
                 });
@@ -127,13 +121,7 @@ namespace Project_BerrrasBio.Migrations
                         .WithMany()
                         .HasForeignKey("MovieId");
 
-                    b.HasOne("Project_BerrrasBio.Models.Show", "shows")
-                        .WithMany("Booking")
-                        .HasForeignKey("showsId");
-
                     b.Navigation("Movie");
-
-                    b.Navigation("shows");
                 });
 
             modelBuilder.Entity("Project_BerrrasBio.Models.Show", b =>
@@ -149,11 +137,6 @@ namespace Project_BerrrasBio.Migrations
                     b.Navigation("Movie");
 
                     b.Navigation("Salon");
-                });
-
-            modelBuilder.Entity("Project_BerrrasBio.Models.Show", b =>
-                {
-                    b.Navigation("Booking");
                 });
 #pragma warning restore 612, 618
         }

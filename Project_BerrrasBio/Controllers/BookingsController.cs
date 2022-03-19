@@ -23,7 +23,7 @@ namespace Project_BerrrasBio.Controllers
         // GET: Bookings
         public async Task<IActionResult> Index()
         {
-            var project_BerrrasBioContext = _context.Booking.Include(b => b.Movie);
+            var project_BerrrasBioContext = _context.Booking.Include(b => b.Movie).Include(b=>b.shows);
             return View(await project_BerrrasBioContext.ToListAsync());
         }
 
@@ -50,6 +50,7 @@ namespace Project_BerrrasBio.Controllers
         public IActionResult Create()
         {
             ViewData["MovieId"] = new SelectList(_context.Set<Movie>(), "Id", "Id");
+            ViewData["ShowId"] = new SelectList(_context.Set<Show>(), "Id", "Id");
             return View();
         }
 

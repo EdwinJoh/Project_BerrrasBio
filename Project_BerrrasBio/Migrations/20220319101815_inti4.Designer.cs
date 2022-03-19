@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Project_BerrrasBio.Data;
 
@@ -11,9 +12,10 @@ using Project_BerrrasBio.Data;
 namespace Project_BerrrasBio.Migrations
 {
     [DbContext(typeof(Project_BerrrasBioContext))]
-    partial class Project_BerrrasBioContextModelSnapshot : ModelSnapshot
+    [Migration("20220319101815_inti4")]
+    partial class inti4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -128,7 +130,7 @@ namespace Project_BerrrasBio.Migrations
                         .HasForeignKey("MovieId");
 
                     b.HasOne("Project_BerrrasBio.Models.Show", "shows")
-                        .WithMany("Booking")
+                        .WithMany()
                         .HasForeignKey("showsId");
 
                     b.Navigation("Movie");
@@ -149,11 +151,6 @@ namespace Project_BerrrasBio.Migrations
                     b.Navigation("Movie");
 
                     b.Navigation("Salon");
-                });
-
-            modelBuilder.Entity("Project_BerrrasBio.Models.Show", b =>
-                {
-                    b.Navigation("Booking");
                 });
 #pragma warning restore 612, 618
         }
