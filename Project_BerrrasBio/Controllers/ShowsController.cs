@@ -21,15 +21,9 @@ namespace Project_BerrrasBio.Controllers
         }
 
         // GET: Shows
-        public async Task<IActionResult> Index(string sortOrder)
+        public async Task<IActionResult> Index()
         {
-            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-            ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
-            var bookings = _context.Booking.ToList();
-            ViewData["Bookingssss"] = bookings;
-
-            var project_BerrrasBioContext = _context.Show.Include(s => s.Movie).Include(s => s.Salon).Include(s => s.Booking);
-
+            var project_BerrrasBioContext = _context.Show.Include(s => s.Movie).Include(s => s.Salon).Include(s=> s.Bookings);
             return View(await project_BerrrasBioContext.ToListAsync());
         }
 

@@ -12,7 +12,7 @@ using Project_BerrrasBio.Data;
 namespace Project_BerrrasBio.Migrations
 {
     [DbContext(typeof(Project_BerrrasBioContext))]
-    [Migration("20220318170407_intitial2")]
+    [Migration("20220320142844_intitial2")]
     partial class intitial2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -35,12 +35,17 @@ namespace Project_BerrrasBio.Migrations
                     b.Property<int?>("MovieId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("NumOfSeats")
+                    b.Property<int>("NumOfSeats")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ShowId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("MovieId");
+
+                    b.HasIndex("ShowId");
 
                     b.ToTable("Booking");
                 });
@@ -97,13 +102,13 @@ namespace Project_BerrrasBio.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("MovieId")
+                    b.Property<int>("MovieId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("SalonId")
+                    b.Property<int>("SalonId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("ShowTime")
+                    b.Property<DateTime>("ShowTime")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
@@ -121,22 +126,39 @@ namespace Project_BerrrasBio.Migrations
                         .WithMany()
                         .HasForeignKey("MovieId");
 
+                    b.HasOne("Project_BerrrasBio.Models.Show", "shows")
+                        .WithMany("Bookings")
+                        .HasForeignKey("ShowId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Movie");
+
+                    b.Navigation("shows");
                 });
 
             modelBuilder.Entity("Project_BerrrasBio.Models.Show", b =>
                 {
                     b.HasOne("Project_BerrrasBio.Models.Movie", "Movie")
                         .WithMany()
-                        .HasForeignKey("MovieId");
+                        .HasForeignKey("MovieId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Project_BerrrasBio.Models.Salon", "Salon")
                         .WithMany()
-                        .HasForeignKey("SalonId");
+                        .HasForeignKey("SalonId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Movie");
 
                     b.Navigation("Salon");
+                });
+
+            modelBuilder.Entity("Project_BerrrasBio.Models.Show", b =>
+                {
+                    b.Navigation("Bookings");
                 });
 #pragma warning restore 612, 618
         }

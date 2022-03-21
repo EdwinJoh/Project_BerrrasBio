@@ -16,11 +16,9 @@
                 @Html.DisplayNameFor(model => model.NumOfSeats)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Movie)
+                @Html.DisplayNameFor(model => model.shows)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ShowtimeID)
-            </th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -30,8 +28,6 @@
                 @Html.DisplayFor(modelItem => item.NumOfSeats)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Movie.Id)
-            </td><td>
                 @Html.DisplayFor(modelItem => item.shows.Id)
             </td>
             <td>

@@ -23,7 +23,7 @@ namespace Project_BerrrasBio.Controllers
         // GET: Bookings
         public async Task<IActionResult> Index()
         {
-            var project_BerrrasBioContext = _context.Booking.Include(b => b.Movie).Include(b=>b.shows);
+            var project_BerrrasBioContext = _context.Booking.Include(b => b.shows);
             return View(await project_BerrrasBioContext.ToListAsync());
         }
 
@@ -36,7 +36,7 @@ namespace Project_BerrrasBio.Controllers
             }
 
             var booking = await _context.Booking
-                .Include(b => b.Movie)
+                .Include(b => b.shows)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (booking == null)
             {
@@ -49,8 +49,7 @@ namespace Project_BerrrasBio.Controllers
         // GET: Bookings/Create
         public IActionResult Create()
         {
-            ViewData["MovieId"] = new SelectList(_context.Set<Movie>(), "Id", "Id");
-            ViewData["ShowId"] = new SelectList(_context.Set<Show>(), "Id", "Id");
+            ViewData["ShowId"] = new SelectList(_context.Show, "Id", "Id");
             return View();
         }
 
@@ -59,7 +58,7 @@ namespace Project_BerrrasBio.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,MovieId,NumOfSeats")] Booking booking)
+        public async Task<IActionResult> Create([Bind("Id,ShowId,NumOfSeats")] Booking booking)
         {
             if (ModelState.IsValid)
             {
@@ -67,7 +66,7 @@ namespace Project_BerrrasBio.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["MovieId"] = new SelectList(_context.Set<Movie>(), "Id", "Id", booking.MovieId);
+            ViewData["ShowId"] = new SelectList(_context.Show, "Id", "Id", booking.ShowId);
             return View(booking);
         }
 
@@ -84,7 +83,7 @@ namespace Project_BerrrasBio.Controllers
             {
                 return NotFound();
             }
-            ViewData["MovieId"] = new SelectList(_context.Set<Movie>(), "Id", "Id", booking.MovieId);
+            ViewData["ShowId"] = new SelectList(_context.Show, "Id", "Id", booking.ShowId);
             return View(booking);
         }
 
@@ -93,7 +92,7 @@ namespace Project_BerrrasBio.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,MovieId,NumOfSeats")] Booking booking)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,ShowId,NumOfSeats")] Booking booking)
         {
             if (id != booking.Id)
             {
@@ -120,7 +119,7 @@ namespace Project_BerrrasBio.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["MovieId"] = new SelectList(_context.Set<Movie>(), "Id", "Id", booking.MovieId);
+            ViewData["ShowId"] = new SelectList(_context.Show, "Id", "Id", booking.ShowId);
             return View(booking);
         }
 
@@ -133,7 +132,7 @@ namespace Project_BerrrasBio.Controllers
             }
 
             var booking = await _context.Booking
-                .Include(b => b.Movie)
+                .Include(b => b.shows)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (booking == null)
             {

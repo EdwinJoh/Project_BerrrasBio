@@ -47,27 +47,24 @@
                     @Html.DisplayFor(modelItem => item.Salon.Name)
                 </td>
                 <td>
-                  
+
                     @Html.DisplayFor(modelItem => item.Salon.Seats)
                 </td>
                 <td>
                     @{
-                        int countBookings;
-                        int seatLeft;
-                        List<int> test = new List<int>();
-                        foreach (var book in (ViewData["Bookingssss"] as List<Booking> ))
+                        int countBookings = (int)item.Salon.Seats;
+                        
+                        foreach (Booking b in item.Bookings) // booking
                         {
-                            countBookings =- (int)book.NumOfSeats;
-                            test.Add(countBookings);
+                            countBookings = countBookings - (int)b.NumOfSeats;
+
 
                         }
-                        
 
-                            
+                        @countBookings
 
-                          //countBookings = (int)item.Salon.Seats;
                     }
-                    <td>@test.Sum()</td>
+
                 </td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

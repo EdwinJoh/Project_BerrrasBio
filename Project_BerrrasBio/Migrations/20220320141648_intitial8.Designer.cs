@@ -12,8 +12,8 @@ using Project_BerrrasBio.Data;
 namespace Project_BerrrasBio.Migrations
 {
     [DbContext(typeof(Project_BerrrasBioContext))]
-    [Migration("20220319101815_inti4")]
-    partial class inti4
+    [Migration("20220320141648_intitial8")]
+    partial class intitial8
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -35,20 +35,17 @@ namespace Project_BerrrasBio.Migrations
                     b.Property<int?>("MovieId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("NumOfSeats")
+                    b.Property<int>("NumOfSeats")
                         .HasColumnType("int");
 
-                    b.Property<int>("ShowtimeID")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("showsId")
+                    b.Property<int>("ShowId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("MovieId");
 
-                    b.HasIndex("showsId");
+                    b.HasIndex("ShowId");
 
                     b.ToTable("Booking");
                 });
@@ -105,13 +102,13 @@ namespace Project_BerrrasBio.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("MovieId")
+                    b.Property<int>("MovieId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("SalonId")
+                    b.Property<int>("SalonId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("ShowTime")
+                    b.Property<DateTime>("ShowTime")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
@@ -130,8 +127,10 @@ namespace Project_BerrrasBio.Migrations
                         .HasForeignKey("MovieId");
 
                     b.HasOne("Project_BerrrasBio.Models.Show", "shows")
-                        .WithMany()
-                        .HasForeignKey("showsId");
+                        .WithMany("Bookings")
+                        .HasForeignKey("ShowId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Movie");
 
@@ -142,15 +141,24 @@ namespace Project_BerrrasBio.Migrations
                 {
                     b.HasOne("Project_BerrrasBio.Models.Movie", "Movie")
                         .WithMany()
-                        .HasForeignKey("MovieId");
+                        .HasForeignKey("MovieId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Project_BerrrasBio.Models.Salon", "Salon")
                         .WithMany()
-                        .HasForeignKey("SalonId");
+                        .HasForeignKey("SalonId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Movie");
 
                     b.Navigation("Salon");
+                });
+
+            modelBuilder.Entity("Project_BerrrasBio.Models.Show", b =>
+                {
+                    b.Navigation("Bookings");
                 });
 #pragma warning restore 612, 618
         }

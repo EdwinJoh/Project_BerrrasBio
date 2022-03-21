@@ -4,7 +4,7 @@
 
 namespace Project_BerrrasBio.Migrations
 {
-    public partial class TestingshowView : Migration
+    public partial class intitial4 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

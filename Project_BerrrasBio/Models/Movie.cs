@@ -10,5 +10,6 @@ namespace Project_BerrrasBio.Models
         public string? CoverUrl { get; set; }
         public string? Description { get; set; }
         public decimal? Price { get; set; }
+        public  ICollection<Show>? shows { get; set; }
     }
 }
