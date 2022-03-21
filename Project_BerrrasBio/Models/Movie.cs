@@ -6,9 +6,9 @@ namespace Project_BerrrasBio.Models
     public partial class Movie
     {
         public int Id { get; set; }
-        public string? Title { get; set; }
-        public string? CoverUrl { get; set; }
-        public string? Description { get; set; }
+        public string Title { get; set; }
+        public string CoverUrl { get; set; }
+        public string Description { get; set; }
         public decimal? Price { get; set; }
         public  ICollection<Show>? shows { get; set; }
     }

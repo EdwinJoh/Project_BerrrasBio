@@ -57,15 +57,18 @@ namespace Project_BerrrasBio.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("CoverUrl")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal?>("Price")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Title")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -138,13 +141,13 @@ namespace Project_BerrrasBio.Migrations
             modelBuilder.Entity("Project_BerrrasBio.Models.Show", b =>
                 {
                     b.HasOne("Project_BerrrasBio.Models.Movie", "Movie")
-                        .WithMany()
+                        .WithMany("shows")
                         .HasForeignKey("MovieId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Project_BerrrasBio.Models.Salon", "Salon")
-                        .WithMany()
+                        .WithMany("Shows")
                         .HasForeignKey("SalonId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -152,6 +155,16 @@ namespace Project_BerrrasBio.Migrations
                     b.Navigation("Movie");
 
                     b.Navigation("Salon");
+                });
+
+            modelBuilder.Entity("Project_BerrrasBio.Models.Movie", b =>
+                {
+                    b.Navigation("shows");
+                });
+
+            modelBuilder.Entity("Project_BerrrasBio.Models.Salon", b =>
+                {
+                    b.Navigation("Shows");
                 });
 
             modelBuilder.Entity("Project_BerrrasBio.Models.Show", b =>

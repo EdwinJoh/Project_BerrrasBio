@@ -8,6 +8,6 @@ namespace Project_BerrrasBio.Models
         public int Id { get; set; }
         public string? Name { get; set; }
         public int? Seats { get; set; }
-        public virtual ICollection<Show> Shows { get; set; }
+        public virtual ICollection<Show>? Shows { get; set; }
     }
 }
