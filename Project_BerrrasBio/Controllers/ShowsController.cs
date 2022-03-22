@@ -29,12 +29,19 @@ namespace Project_BerrrasBio.Controllers
                        .Include(s => s.Salon)
                        .Include(s => s.Bookings)
                        select s;
-            var count = from c in _context.Salon
-                        select c.Seats;
+            
+            var counter = from c in _context.Show.Include(c => c.Movie).Include(c => c.Salon).Include(s => s.Bookings)
+                          select c;
+
+            foreach (var item in counter)
+            {
+                 var book =item.Salon.Seats -= (int)item.Salon.Seats;
+
+            }
+            //behöver uträkning för seats left kan man använda den som vi har i view ? 
 
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "ShowTime" : "";
             ViewBag.SeatSortParm = String.IsNullOrEmpty(sortOrder) ? "Seat left" : "";
-            //behöver uträkning för seats left kan man använda den som vi har i view ? 
             switch (sortOrder)
             {
                 case "ShowTime":
@@ -51,13 +58,6 @@ namespace Project_BerrrasBio.Controllers
 
 
         }
-        //}public async Task<IActionResult> Index()
-        //{
-
-
-        //    var project_BerrrasBioContext = _context.Show.Include(s => s.Movie).Include(s => s.Salon).Include(s=> s.Bookings);
-        //    return View(await project_BerrrasBioContext.ToListAsync());
-        //}
 
         // GET: Shows/Details/5
         public async Task<IActionResult> Details(int? id)
