@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Project_BerrrasBio.Data;
 
@@ -11,9 +12,10 @@ using Project_BerrrasBio.Data;
 namespace Project_BerrrasBio.Migrations
 {
     [DbContext(typeof(Project_BerrrasBioContext))]
-    partial class Project_BerrrasBioContextModelSnapshot : ModelSnapshot
+    [Migration("20220322102830_inti")]
+    partial class inti
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,6 +32,9 @@ namespace Project_BerrrasBio.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int?>("MovieId")
+                        .HasColumnType("int");
+
                     b.Property<int>("NumOfSeats")
                         .HasColumnType("int");
 
@@ -37,6 +42,8 @@ namespace Project_BerrrasBio.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("MovieId");
 
                     b.HasIndex("ShowId");
 
@@ -118,11 +125,17 @@ namespace Project_BerrrasBio.Migrations
 
             modelBuilder.Entity("Project_BerrrasBio.Models.Booking", b =>
                 {
+                    b.HasOne("Project_BerrrasBio.Models.Movie", "Movie")
+                        .WithMany()
+                        .HasForeignKey("MovieId");
+
                     b.HasOne("Project_BerrrasBio.Models.Show", "shows")
                         .WithMany("Bookings")
                         .HasForeignKey("ShowId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Movie");
 
                     b.Navigation("shows");
                 });

@@ -47,10 +47,15 @@ namespace Project_BerrrasBio.Controllers
         }
 
         // GET: Bookings/Create
-        public IActionResult Create()
+        public IActionResult Create(int id)
         {
-            ViewData["ShowId"] = new SelectList(_context.Show, "Id", "Id");
-            return View();
+            Booking b = new Booking();
+            b.ShowId = id;
+           
+            return View(b);
+
+            
+            //ViewData["ShowId"] = id;
         }
 
         // POST: Bookings/Create
@@ -58,8 +63,9 @@ namespace Project_BerrrasBio.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,ShowId,NumOfSeats")] Booking booking)
+        public async Task<IActionResult> Create([Bind("ShowId,NumOfSeats")] Booking booking)
         {
+
             if (ModelState.IsValid)
             {
                 _context.Add(booking);

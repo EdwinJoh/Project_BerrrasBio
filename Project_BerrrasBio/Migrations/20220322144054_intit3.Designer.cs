@@ -12,8 +12,8 @@ using Project_BerrrasBio.Data;
 namespace Project_BerrrasBio.Migrations
 {
     [DbContext(typeof(Project_BerrrasBioContext))]
-    [Migration("20220321102728_intial")]
-    partial class intial
+    [Migration("20220322144054_intit3")]
+    partial class intit3
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -32,9 +32,6 @@ namespace Project_BerrrasBio.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("MovieId")
-                        .HasColumnType("int");
-
                     b.Property<int>("NumOfSeats")
                         .HasColumnType("int");
 
@@ -42,8 +39,6 @@ namespace Project_BerrrasBio.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("MovieId");
 
                     b.HasIndex("ShowId");
 
@@ -125,17 +120,11 @@ namespace Project_BerrrasBio.Migrations
 
             modelBuilder.Entity("Project_BerrrasBio.Models.Booking", b =>
                 {
-                    b.HasOne("Project_BerrrasBio.Models.Movie", "Movie")
-                        .WithMany()
-                        .HasForeignKey("MovieId");
-
                     b.HasOne("Project_BerrrasBio.Models.Show", "shows")
                         .WithMany("Bookings")
                         .HasForeignKey("ShowId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Movie");
 
                     b.Navigation("shows");
                 });

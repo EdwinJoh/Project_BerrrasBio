@@ -21,11 +21,43 @@ namespace Project_BerrrasBio.Controllers
         }
 
         // GET: Shows
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder)
         {
-            var project_BerrrasBioContext = _context.Show.Include(s => s.Movie).Include(s => s.Salon).Include(s=> s.Bookings);
-            return View(await project_BerrrasBioContext.ToListAsync());
+
+            var test = from s in _context.Show
+                       .Include(s => s.Movie)
+                       .Include(s => s.Salon)
+                       .Include(s => s.Bookings)
+                       select s;
+            var count = from c in _context.Salon
+                        select c.Seats;
+
+            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "ShowTime" : "";
+            ViewBag.SeatSortParm = String.IsNullOrEmpty(sortOrder) ? "Seat left" : "";
+            //behöver uträkning för seats left kan man använda den som vi har i view ? 
+            switch (sortOrder)
+            {
+                case "ShowTime":
+                    test = test.OrderByDescending(s => s.ShowTime);
+                    break;
+                case "Seat left":
+                    test = test.OrderByDescending(s => s.Salon.Seats);
+                    break;
+                default:
+                    test = test.OrderBy(s => s.ShowTime);
+                    break;
+            }
+            return View(await test.AsNoTracking().ToListAsync());
+
+
         }
+        //}public async Task<IActionResult> Index()
+        //{
+
+
+        //    var project_BerrrasBioContext = _context.Show.Include(s => s.Movie).Include(s => s.Salon).Include(s=> s.Bookings);
+        //    return View(await project_BerrrasBioContext.ToListAsync());
+        //}
 
         // GET: Shows/Details/5
         public async Task<IActionResult> Details(int? id)

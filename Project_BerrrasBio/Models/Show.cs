@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Project_BerrrasBio.Models
 {
-    public partial class Show
+    public partial class Show 
     {
         public Show()
         {
@@ -17,5 +17,7 @@ namespace Project_BerrrasBio.Models
         public virtual Movie? Movie { get; set; }
         public virtual Salon? Salon { get; set; }
         public virtual ICollection<Booking>? Bookings { get; set; }
+
+       
     }
 }
