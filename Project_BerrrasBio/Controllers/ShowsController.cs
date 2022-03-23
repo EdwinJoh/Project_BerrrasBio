@@ -23,12 +23,15 @@ namespace Project_BerrrasBio.Controllers
         // GET: Shows
         public async Task<IActionResult> Index(string sortOrder)
         {
+            
 
-          
-            var count = from c in _context.Show.Include(c => c.Movie).Include(c => c.Salon).Include(s => s.Bookings)
-                        select c;
 
-            ViewBag.DateSort = String.IsNullOrEmpty(sortOrder) ? "Date" : "";
+            var count = from c in _context.Show.Include(c => c.Movie)
+                                                .Include(c => c.Salon)
+                                                .Include(s => s.Bookings)
+                                                 select c;
+
+            ViewBag.DateSort = sortOrder == "Date" ? "date_desc" : "Date"; // decending ???
             ViewBag.SeatSortParm = String.IsNullOrEmpty(sortOrder) ? "Seat left" : "";
             //behöver uträkning för seats left kan man använda den som vi har i view ? 
             switch (sortOrder)
@@ -39,15 +42,15 @@ namespace Project_BerrrasBio.Controllers
                 case "Seat left":
                     count = count.OrderByDescending(s => s.Salon.Seats);
                     break;
-                case "Test":
-                    count = count.OrderByDescending(s => s.Salon.Seats).Where(s => s.Bookings.)
+                case "date_desc":
+                    count = count.OrderBy(s => s.ShowTime);
                     break;
 
                 default:
-                    test = test.OrderBy(s => s.ShowTime);
+                    count = count.OrderBy(s => s.Id);
                     break;
             }
-            return View(await test.AsNoTracking().ToListAsync());
+            return View(await count.AsNoTracking().ToListAsync());
 
 
         }
@@ -61,9 +64,9 @@ namespace Project_BerrrasBio.Controllers
             }
 
             var show = await _context.Show
-                .Include(s => s.Movie)
-                .Include(s => s.Salon)
-                .FirstOrDefaultAsync(m => m.Id == id);
+                            .Include(s => s.Movie)
+                            .Include(s => s.Salon)
+                            .FirstOrDefaultAsync(m => m.Id == id);
             if (show == null)
             {
                 return NotFound();

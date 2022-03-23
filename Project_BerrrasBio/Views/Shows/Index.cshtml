@@ -5,6 +5,14 @@
     ViewData["Title"] = "Index";
     int SpareBookings = 0;
 }
+@if (TempData["AlertMessage"] != null)
+{
+    <div class="alert alert-success">
+        <strong>Success!</strong>@TempData["AlertMessage"]
+    </div>
+
+}
+
 
 <h1>Shows</h1>
 
@@ -15,9 +23,10 @@
     <thead>
         <tr>
             <th>
-                @*@Html.DisplayNameFor(model => model.ShowTime)*@
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
                 @Html.ActionLink("Date", "Index", new { sortOrder = ViewBag.DateSort })
-
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Movie)
@@ -26,7 +35,7 @@
                 @Html.DisplayNameFor(model => model.Salon)
             </th>
             <th>
-                 @Html.ActionLink("Seats", "Index", new { sortOrder = ViewBag.SeatSort })
+                @Html.ActionLink("Seats", "Index", new { sortOrder = ViewBag.SeatSort })
             </th>
             <th>
                 Go Now
@@ -37,6 +46,9 @@
         @foreach (var item in Model)
         {
             <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.ShowTime)
                 </td>
@@ -53,7 +65,8 @@
                         {
                             countBookings = countBookings - b.NumOfSeats;
                         }
-                        @countBookings;
+                        @countBookings
+                        ;
                     } /
                     @Html.DisplayFor(modelItem => item.Salon.Seats)
                 </td>

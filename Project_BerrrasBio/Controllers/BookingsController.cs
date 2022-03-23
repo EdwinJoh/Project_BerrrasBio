@@ -36,8 +36,8 @@ namespace Project_BerrrasBio.Controllers
             }
 
             var booking = await _context.Booking
-                .Include(b => b.shows)
-                .FirstOrDefaultAsync(m => m.Id == id);
+                                .Include(b => b.shows)
+                                .FirstOrDefaultAsync(m => m.Id == id);
             if (booking == null)
             {
                 return NotFound();
@@ -51,10 +51,10 @@ namespace Project_BerrrasBio.Controllers
         {
             Booking b = new Booking();
             b.ShowId = id;
-           
+
             return View(b);
 
-            
+
             //ViewData["ShowId"] = id;
         }
 
@@ -68,21 +68,30 @@ namespace Project_BerrrasBio.Controllers
 
             if (ModelState.IsValid)
             {
-                var showing = _context.Show.Where(s => s.Id == booking.ShowId).Include(s => s.Bookings).Include(s => s.Salon).Include(s => s.Movie).SingleOrDefault();
+                var showing = _context.Show
+                                .Where(s => s.Id == booking.ShowId)
+                                .Include(s => s.Bookings)
+                                .Include(s => s.Salon)
+                                .Include(s => s.Movie)
+                                .SingleOrDefault();
                 int remaingingSeats = (int)(showing.Salon.Seats - showing.Bookings.Sum(b => b.NumOfSeats));             // kan användas till sorting ??????
 
                 if (booking.NumOfSeats > remaingingSeats)
                 {
                     return RedirectToAction(); // till error view som man skapar själv ?
                 }
+                
                 _context.Add(booking);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Success", "Bookings", booking);
             }
-            ViewData["ShowId"] = new SelectList(_context.Show, "Id", "Id", booking.ShowId);
+            //ViewData["ShowId"] = new SelectList(_context.Show, "Id", "Id", booking.ShowId); behövs ens denna ??
+            return RedirectToAction("Index", "Show");
+        }
+        public IActionResult Success( Booking booking)
+        {
             return View(booking);
         }
-
         // GET: Bookings/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
