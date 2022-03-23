@@ -68,6 +68,13 @@ namespace Project_BerrrasBio.Controllers
 
             if (ModelState.IsValid)
             {
+                var showing = _context.Show.Where(s => s.Id == booking.ShowId).Include(s => s.Bookings).Include(s => s.Salon).Include(s => s.Movie).SingleOrDefault();
+                int remaingingSeats = (int)(showing.Salon.Seats - showing.Bookings.Sum(b => b.NumOfSeats));             // kan användas till sorting ??????
+
+                if (booking.NumOfSeats > remaingingSeats)
+                {
+                    return RedirectToAction(); // till error view som man skapar själv ?
+                }
                 _context.Add(booking);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

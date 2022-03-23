@@ -11,6 +11,7 @@ namespace Project_BerrrasBio.Models
         public int ShowId { get; set; }
 
         [Display(Name = "Number of seats")]
+        [Range(1, 12, ErrorMessage = "Minimum: 1 Seat. Maximum 12 Seats")]
         public int NumOfSeats { get; set; }
 
         public virtual Show? shows { get; set; }

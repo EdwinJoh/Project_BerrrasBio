@@ -1,5 +1,6 @@
 ﻿@model IEnumerable<Project_BerrrasBio.Models.Show>
 
+
 @{
     ViewData["Title"] = "Index";
     int SpareBookings = 0;
@@ -15,7 +16,7 @@
         <tr>
             <th>
                 @*@Html.DisplayNameFor(model => model.ShowTime)*@
-                @Html.ActionLink("ShowTime", "Index", new { sortOrder = ViewBag.NameSortParm })
+                @Html.ActionLink("Date", "Index", new { sortOrder = ViewBag.DateSort })
 
             </th>
             <th>
@@ -25,7 +26,7 @@
                 @Html.DisplayNameFor(model => model.Salon)
             </th>
             <th>
-                @Html.ActionLink("Seat Left", "Index", new { sortOrder = ViewBag.SeatSortParm })
+                 @Html.ActionLink("Seats", "Index", new { sortOrder = ViewBag.SeatSort })
             </th>
             <th>
                 Go Now

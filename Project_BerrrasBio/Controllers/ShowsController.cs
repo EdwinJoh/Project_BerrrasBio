@@ -24,32 +24,25 @@ namespace Project_BerrrasBio.Controllers
         public async Task<IActionResult> Index(string sortOrder)
         {
 
-            var test = from s in _context.Show
-                       .Include(s => s.Movie)
-                       .Include(s => s.Salon)
-                       .Include(s => s.Bookings)
-                       select s;
-            
-            var counter = from c in _context.Show.Include(c => c.Movie).Include(c => c.Salon).Include(s => s.Bookings)
-                          select c;
+          
+            var count = from c in _context.Show.Include(c => c.Movie).Include(c => c.Salon).Include(s => s.Bookings)
+                        select c;
 
-            foreach (var item in counter)
-            {
-                 var book =item.Salon.Seats -= (int)item.Salon.Seats;
-
-            }
-            //behöver uträkning för seats left kan man använda den som vi har i view ? 
-
-            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "ShowTime" : "";
+            ViewBag.DateSort = String.IsNullOrEmpty(sortOrder) ? "Date" : "";
             ViewBag.SeatSortParm = String.IsNullOrEmpty(sortOrder) ? "Seat left" : "";
+            //behöver uträkning för seats left kan man använda den som vi har i view ? 
             switch (sortOrder)
             {
-                case "ShowTime":
-                    test = test.OrderByDescending(s => s.ShowTime);
+                case "Date":
+                    count = count.OrderByDescending(s => s.ShowTime);
                     break;
                 case "Seat left":
-                    test = test.OrderByDescending(s => s.Salon.Seats);
+                    count = count.OrderByDescending(s => s.Salon.Seats);
                     break;
+                case "Test":
+                    count = count.OrderByDescending(s => s.Salon.Seats).Where(s => s.Bookings.)
+                    break;
+
                 default:
                     test = test.OrderBy(s => s.ShowTime);
                     break;
