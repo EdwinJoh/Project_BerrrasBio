@@ -19,14 +19,15 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
+<table class="table" id="myTable">
     <thead>
-        <tr>
+                <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Id)
             </th>
             <th>
-                @Html.ActionLink("Date", "Index", new { sortOrder = ViewBag.DateSort })
+                @Html.DisplayNameFor(model => model.ShowTime)
+                @*@Html.ActionLink("Date", "Index", new { sortOrder = ViewBag.DateSort })*@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Movie)
@@ -35,10 +36,11 @@
                 @Html.DisplayNameFor(model => model.Salon)
             </th>
             <th>
-                @Html.ActionLink("Seats", "Index", new { sortOrder = ViewBag.SeatSort })
+                @Html.DisplayNameFor(model => model.AvailableSeats)
+                @*@Html.ActionLink("Seats", "Index", new { sortOrder = ViewBag.SeatSort })*@
             </th>
             <th>
-                Go Now
+                
             </th>
         </tr>
     </thead>
@@ -49,6 +51,7 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Id)
                 </td>
+               
                 <td>
                     @Html.DisplayFor(modelItem => item.ShowTime)
                 </td>
@@ -60,19 +63,20 @@
                 </td>
                 <td>
                     @{
-                        int countBookings = (int)item.Salon.Seats;
+                        item.AvailableSeats = (int)item.Salon.Seats;
                         foreach (Booking b in item.Bookings)
                         {
-                            countBookings = countBookings - b.NumOfSeats;
+                            item.AvailableSeats = item.AvailableSeats - b.NumOfSeats;
                         }
-                        @countBookings
-                        ;
-                    } /
-                    @Html.DisplayFor(modelItem => item.Salon.Seats)
+                        
+                        
+                       
+                    } 
+                    @item.AvailableSeats /  @Html.DisplayFor(modelItem => item.Salon.Seats)
                 </td>
                 <td>
                     @{
-                        if (@countBookings <= @SpareBookings)
+                        if (item.AvailableSeats <= @SpareBookings)
                         {
                             <a asp-area="" asp-controller="Bookings" asp-action="@item.Id" class="btn btn-outline-dark disabled" role="button" aria-disabled="true">Book Now</a>
                             //<button type="button" class="btn btn-outline-dark" disabled>Full</button>
@@ -89,3 +93,6 @@
         }
     </tbody>
 </table>
+<script>$(document).ready( function () {
+    $('#myTable').DataTable();
+} );</script>

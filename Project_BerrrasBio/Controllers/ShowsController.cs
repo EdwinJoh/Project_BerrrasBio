@@ -23,36 +23,9 @@ namespace Project_BerrrasBio.Controllers
         // GET: Shows
         public async Task<IActionResult> Index(string sortOrder)
         {
-            
+            var context = _context.Show.Include(s => s.Movie).Include(s => s.Bookings).Include(s => s.Salon);
 
-
-            var count = from c in _context.Show.Include(c => c.Movie)
-                                                .Include(c => c.Salon)
-                                                .Include(s => s.Bookings)
-                                                 select c;
-
-            ViewBag.DateSort = sortOrder == "Date" ? "date_desc" : "Date"; // decending ???
-            ViewBag.SeatSortParm = String.IsNullOrEmpty(sortOrder) ? "Seat left" : "";
-            //behöver uträkning för seats left kan man använda den som vi har i view ? 
-            switch (sortOrder)
-            {
-                case "Date":
-                    count = count.OrderByDescending(s => s.ShowTime);
-                    break;
-                case "Seat left":
-                    count = count.OrderByDescending(s => s.Salon.Seats);
-                    break;
-                case "date_desc":
-                    count = count.OrderBy(s => s.ShowTime);
-                    break;
-
-                default:
-                    count = count.OrderBy(s => s.Id);
-                    break;
-            }
-            return View(await count.AsNoTracking().ToListAsync());
-
-
+            return View(await context.AsNoTracking().ToListAsync());
         }
 
         // GET: Shows/Details/5

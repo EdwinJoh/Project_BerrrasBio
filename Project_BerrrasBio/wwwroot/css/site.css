@@ -62,3 +62,10 @@ body {
         width: auto;
         margin: 0em 2em 0em 0em;
     }
+
+.control-label {
+    font-weight:bold;
+}
+#myTable_filter, #myTable_length {
+    display:none;
+}
