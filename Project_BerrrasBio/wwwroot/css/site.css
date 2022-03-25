@@ -69,3 +69,6 @@ body {
 #myTable_filter, #myTable_length {
     display:none;
 }
+.showImage{
+    width:30%;
+}

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Project_BerrrasBio.Data;
 
@@ -11,9 +12,10 @@ using Project_BerrrasBio.Data;
 namespace Project_BerrrasBio.Migrations
 {
     [DbContext(typeof(Project_BerrrasBioContext))]
-    partial class Project_BerrrasBioContextModelSnapshot : ModelSnapshot
+    [Migration("20220325094113_redidmodels")]
+    partial class redidmodels
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

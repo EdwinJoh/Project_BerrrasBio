@@ -15,13 +15,15 @@
 </p>
 <table class="table" id="myTable">
     <thead>
-                <tr>
+        <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Id)
             </th>
             <th>
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.ShowTime)
-                
+
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Movie)
@@ -31,10 +33,15 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.AvailableSeats)
-               
             </th>
             <th>
-                
+
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PricePerTicket)
+            </th>
+            <th>
+
             </th>
         </tr>
     </thead>
@@ -45,7 +52,9 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Id)
                 </td>
-               
+                <td>
+                    <img class="showImage" src="@Html.DisplayFor(modelItem => item.Movie.CoverUrl)">
+                </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.ShowTime)
                 </td>
@@ -62,10 +71,10 @@
                         {
                             item.AvailableSeats = item.AvailableSeats - b.NumOfSeats;
                         }
-                        
-                        
-                       
-                    } 
+
+
+
+                    }
                     @item.AvailableSeats /  @Html.DisplayFor(modelItem => item.Salon.Seats)
                 </td>
                 <td>
@@ -73,20 +82,24 @@
                         if (item.AvailableSeats <= @SpareBookings)
                         {
                             <a asp-area="" asp-controller="Bookings" asp-action="@item.Id" class="btn btn-outline-dark disabled" role="button" aria-disabled="true">Book Now</a>
-                            //<button type="button" class="btn btn-outline-dark" disabled>Full</button>
+                           
                         }
                         else
                         {
-                            <a asp-area="" asp-route-id="@item.Id" asp-controller="Bookings" asp-action="Create" class="btn btn-outline-primary" role="button">Book Now</a>
+                            <a asp-area="" asp-route-id="@item.Id" asp-route-price="@item.PricePerTicket" asp-controller="Bookings" asp-action="Create" class="btn btn-outline-primary" role="button">Book Now</a>
 
                         }
                     }
 
                 </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PricePerTicket) SEK
+                </td>
             </tr>
         }
     </tbody>
 </table>
-<script>$(document).ready( function () {
-    $('#myTable').DataTable();
-} );</script>
+<script>
+    $(document).ready( function () {
+        $('#myTable').DataTable();
+    } );</script>

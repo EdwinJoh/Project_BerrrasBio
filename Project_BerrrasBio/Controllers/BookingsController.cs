@@ -46,16 +46,15 @@ namespace Project_BerrrasBio.Controllers
             return View(booking);
         }
 
-        // GET: Bookings/Create
-        public IActionResult Create(int id)
+        //GET: Bookings/Create
+        public async Task<IActionResult> Create(int id, int price)
         {
-            Booking b = new Booking();
-            b.ShowId = id;
+            Booking book = new Booking();
+            book.ShowId = id;
 
-            return View(b);
+            ViewBag.pricePerTicket = price;
 
-
-            //ViewData["ShowId"] = id;
+            return View(book);
         }
 
         // POST: Bookings/Create
@@ -68,18 +67,17 @@ namespace Project_BerrrasBio.Controllers
 
             if (ModelState.IsValid)
             {
-
                 var showing = _context.Show
-                                .Where(s => s.Id == booking.ShowId)
-                                .Include(s => s.Bookings)
-                                .Include(s => s.Salon)
-                                .Include(s => s.Movie)
-                                .SingleOrDefault();
-                int remaingingSeats = (int)(showing.Salon.Seats - showing.Bookings.Sum(b => b.NumOfSeats));             // kan användas till sorting ??????
+                    .Where(s => s.Id == booking.ShowId)
+                    .Include(s => s.Bookings)
+                    .Include(s => s.Salon)
+                    .Include(s => s.Movie)
+                    .SingleOrDefault();
+                int remaingingSeats = (int)(showing.Salon.Seats - showing.Bookings.Sum(b => b.NumOfSeats));             
 
                 if (booking.NumOfSeats > remaingingSeats)
                 {
-                    return RedirectToAction("Error", "Bookings", booking); // till error view som man skapar själv ?
+                    return RedirectToAction("Error", "Bookings", booking); 
                 }
 
                 _context.Add(booking);
@@ -89,7 +87,7 @@ namespace Project_BerrrasBio.Controllers
             //ViewData["ShowId"] = new SelectList(_context.Show, "Id", "Id", booking.ShowId); behövs ens denna ??
             return RedirectToAction("Index", "Show");
         }
-        public IActionResult Success(Booking booking)
+        public IActionResult Success(Booking booking,int price)
         {
             return View(booking);
         }

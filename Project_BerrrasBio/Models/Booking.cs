@@ -5,7 +5,7 @@ namespace Project_BerrrasBio.Models
 {
     public partial class Booking
     {
-        
+
         public int Id { get; set; }
 
         public int ShowId { get; set; }
@@ -15,7 +15,7 @@ namespace Project_BerrrasBio.Models
         public int NumOfSeats { get; set; }
 
         public virtual Show? shows { get; set; }
-        
-        
+
+
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Project_BerrrasBio.Models
 {
@@ -14,6 +15,8 @@ namespace Project_BerrrasBio.Models
         public int SalonId { get; set; }
         public DateTime ShowTime { get; set; }
         public int? AvailableSeats { get; set; }
+        [Display(Name ="Price per Ticket")]
+        public int PricePerTicket { get; set; }
 
         public virtual Movie? Movie { get; set; }
         public virtual Salon? Salon { get; set; }
