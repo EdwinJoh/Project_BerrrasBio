@@ -68,6 +68,7 @@ namespace Project_BerrrasBio.Controllers
 
             if (ModelState.IsValid)
             {
+
                 var showing = _context.Show
                                 .Where(s => s.Id == booking.ShowId)
                                 .Include(s => s.Bookings)
@@ -78,9 +79,9 @@ namespace Project_BerrrasBio.Controllers
 
                 if (booking.NumOfSeats > remaingingSeats)
                 {
-                    return RedirectToAction(); // till error view som man skapar själv ?
+                    return RedirectToAction("Error", "Bookings", booking); // till error view som man skapar själv ?
                 }
-                
+
                 _context.Add(booking);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Success", "Bookings", booking);
@@ -88,7 +89,11 @@ namespace Project_BerrrasBio.Controllers
             //ViewData["ShowId"] = new SelectList(_context.Show, "Id", "Id", booking.ShowId); behövs ens denna ??
             return RedirectToAction("Index", "Show");
         }
-        public IActionResult Success( Booking booking)
+        public IActionResult Success(Booking booking)
+        {
+            return View(booking);
+        }
+        public IActionResult Error(Booking booking)
         {
             return View(booking);
         }

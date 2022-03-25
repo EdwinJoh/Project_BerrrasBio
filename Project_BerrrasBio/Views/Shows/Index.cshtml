@@ -5,13 +5,7 @@
     ViewData["Title"] = "Index";
     int SpareBookings = 0;
 }
-@if (TempData["AlertMessage"] != null)
-{
-    <div class="alert alert-success">
-        <strong>Success!</strong>@TempData["AlertMessage"]
-    </div>
 
-}
 
 
 <h1>Shows</h1>
@@ -27,7 +21,7 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.ShowTime)
-                @*@Html.ActionLink("Date", "Index", new { sortOrder = ViewBag.DateSort })*@
+                
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Movie)
@@ -37,7 +31,7 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.AvailableSeats)
-                @*@Html.ActionLink("Seats", "Index", new { sortOrder = ViewBag.SeatSort })*@
+               
             </th>
             <th>
                 
