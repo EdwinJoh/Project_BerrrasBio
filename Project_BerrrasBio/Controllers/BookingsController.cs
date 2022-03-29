@@ -11,8 +11,10 @@ using Project_BerrrasBio.Models;
 
 namespace Project_BerrrasBio.Controllers
 {
+
     public class BookingsController : Controller
     {
+
         private readonly Project_BerrrasBioContext _context;
 
         public BookingsController(Project_BerrrasBioContext context)
@@ -53,7 +55,6 @@ namespace Project_BerrrasBio.Controllers
             book.ShowId = id;
 
             ViewBag.pricePerTicket = price;
-
             return View(book);
         }
 
@@ -62,7 +63,7 @@ namespace Project_BerrrasBio.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ShowId,NumOfSeats")] Booking booking)
+        public async Task<IActionResult> Create([Bind("ShowId,NumOfSeats")] Booking booking, int price)
         {
 
             if (ModelState.IsValid)
@@ -73,21 +74,21 @@ namespace Project_BerrrasBio.Controllers
                     .Include(s => s.Salon)
                     .Include(s => s.Movie)
                     .SingleOrDefault();
-                int remaingingSeats = (int)(showing.Salon.Seats - showing.Bookings.Sum(b => b.NumOfSeats));             
+
+                int remaingingSeats = (int)(showing.Salon.Seats - showing.Bookings.Sum(b => b.NumOfSeats));
 
                 if (booking.NumOfSeats > remaingingSeats)
                 {
-                    return RedirectToAction("Error", "Bookings", booking); 
+                    return RedirectToAction("Error", "Bookings", booking);
                 }
-
                 _context.Add(booking);
+
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Success", "Bookings", booking);
             }
-            //ViewData["ShowId"] = new SelectList(_context.Show, "Id", "Id", booking.ShowId); behövs ens denna ??
             return RedirectToAction("Index", "Show");
         }
-        public IActionResult Success(Booking booking,int price)
+        public IActionResult Success(Booking booking)
         {
             return View(booking);
         }

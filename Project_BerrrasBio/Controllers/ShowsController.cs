@@ -21,9 +21,11 @@ namespace Project_BerrrasBio.Controllers
         }
 
         // GET: Shows
-        public async Task<IActionResult> Index(string sortOrder)
+        public async Task<IActionResult> Index()
         {
-            var context = _context.Show.Include(s => s.Movie).Include(s => s.Bookings).Include(s => s.Salon);
+            var context = _context.Show.Include(s => s.Movie)
+                                        .Include(s => s.Bookings)
+                                        .Include(s => s.Salon);
 
             return View(await context.AsNoTracking().ToListAsync());
         }

@@ -64,11 +64,23 @@ body {
     }
 
 .control-label {
-    font-weight:bold;
+    font-weight: bold;
 }
-#myTable_filter, #myTable_length {
-    display:none;
+
+*#myTable_filter, #myTable_length {
+    display: none;
 }
-.showImage{
-    width:30%;
+
+.showImage {
+    width: 30%;
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.homeButton {
+    padding-top: 10px;
 }

@@ -20,7 +20,9 @@
                 @Html.DisplayNameFor(model => model.Id)
             </th>
             <th>
+
             </th>
+           
             <th>
                 @Html.DisplayNameFor(model => model.ShowTime)
 
@@ -35,14 +37,12 @@
                 @Html.DisplayNameFor(model => model.AvailableSeats)
             </th>
             <th>
-
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.PricePerTicket)
             </th>
             <th>
 
             </th>
+            
         </tr>
     </thead>
     <tbody>
@@ -71,18 +71,24 @@
                         {
                             item.AvailableSeats = item.AvailableSeats - b.NumOfSeats;
                         }
-
-
-
                     }
                     @item.AvailableSeats /  @Html.DisplayFor(modelItem => item.Salon.Seats)
                 </td>
                 <td>
                     @{
+                        if (DateTime.Now.TimeOfDay > new TimeSpan(12, 00, 00) && DateTime.Now.TimeOfDay < new TimeSpan(15, 00, 00))
+                        {
+                        item.PricePerTicket += 200;
+                        }
+                        }
+                    @Html.DisplayFor(modelItem => item.PricePerTicket) 
+                </td>
+                <td>
+                    @{
                         if (item.AvailableSeats <= @SpareBookings)
                         {
-                            <a asp-area="" asp-controller="Bookings" asp-action="@item.Id" class="btn btn-outline-dark disabled" role="button" aria-disabled="true">Book Now</a>
-                           
+                            <a asp-area="" asp-controller="Bookings" asp-action="@item.Id" class="btn btn-outline-dark disabled" role="button" aria-disabled="true">Full</a>
+
                         }
                         else
                         {
@@ -90,10 +96,6 @@
 
                         }
                     }
-
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PricePerTicket) SEK
                 </td>
             </tr>
         }
@@ -101,5 +103,6 @@
 </table>
 <script>
     $(document).ready( function () {
-        $('#myTable').DataTable();
-    } );</script>
+    $('#myTable').DataTable();
+} );
+</script>

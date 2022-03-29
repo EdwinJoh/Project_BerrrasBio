@@ -1,6 +1,8 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+<body class="homePage">
+</body>
 
 <div class="text-center">
     <h1 class="display-4">BerrasBio</h1>
@@ -11,7 +13,13 @@
         </div>
         <div class="newMovies">
             <img src="https://catalog.cinema-api.com/cf/images/ncg-images/ea33a0786df44ae3ba11b00cbf4c9c45.jpg?width=240&version=D2481E6743FDBE69C653288F70C66CA1&format=webp" alt="Zlatan">
+        </div> <div class="newMovies">
+            <img src="https://catalog.cinema-api.com/cf/images/ncg-images/0f9a35c5e01542b9a99f2ab2f7264c7c.jpg?width=240&version=843423C1AD39F39644C205CF50FD0115&format=webp" alt="ambbulance">
         </div>
     </div>
-
+    <div class="homeButton">
+        <a asp-route-id="" asp-controller="Shows" asp-action="Index" class="btn btn-outline-primary" role="button">Go To Shows</a>
+    </div>
 </div>
+
+
