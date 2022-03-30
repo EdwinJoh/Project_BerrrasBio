@@ -55,6 +55,7 @@ namespace Project_BerrrasBio.Controllers
         {
             ViewData["MovieId"] = new SelectList(_context.Movie, "Id", "Id");
             ViewData["SalonId"] = new SelectList(_context.Salon, "Id", "Id");
+           
             return View();
         }
 
@@ -63,7 +64,7 @@ namespace Project_BerrrasBio.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,MovieId,SalonId,ShowTime")] Show show)
+        public async Task<IActionResult> Create([Bind("Id,MovieId,SalonId,ShowTime,PricePerTicket")] Show show)
         {
             if (ModelState.IsValid)
             {

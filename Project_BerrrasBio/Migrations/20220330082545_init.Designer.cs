@@ -12,8 +12,8 @@ using Project_BerrrasBio.Data;
 namespace Project_BerrrasBio.Migrations
 {
     [DbContext(typeof(Project_BerrrasBioContext))]
-    [Migration("20220325094113_redidmodels")]
-    partial class redidmodels
+    [Migration("20220330082545_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -37,6 +37,9 @@ namespace Project_BerrrasBio.Migrations
 
                     b.Property<int>("ShowId")
                         .HasColumnType("int");
+
+                    b.Property<decimal>("TotalPrice")
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 

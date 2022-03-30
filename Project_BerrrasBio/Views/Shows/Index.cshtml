@@ -22,7 +22,7 @@
             <th>
 
             </th>
-           
+
             <th>
                 @Html.DisplayNameFor(model => model.ShowTime)
 
@@ -42,7 +42,7 @@
             <th>
 
             </th>
-            
+
         </tr>
     </thead>
     <tbody>
@@ -76,12 +76,14 @@
                 </td>
                 <td>
                     @{
-                        if (DateTime.Now.TimeOfDay > new TimeSpan(12, 00, 00) && DateTime.Now.TimeOfDay < new TimeSpan(15, 00, 00))
+                        var timeOfday = item.ShowTime.TimeOfDay;
+                        if (timeOfday > new TimeSpan(10, 00, 00) && timeOfday < new TimeSpan(11, 00, 00))
                         {
-                        item.PricePerTicket += 200;
+                            item.PricePerTicket += 100;
                         }
-                        }
-                    @Html.DisplayFor(modelItem => item.PricePerTicket) 
+                       
+                    }
+                    @Html.DisplayFor(modelItem => item.PricePerTicket)
                 </td>
                 <td>
                     @{
@@ -102,7 +104,7 @@
     </tbody>
 </table>
 <script>
-    $(document).ready( function () {
-    $('#myTable').DataTable();
-} );
+        $(document).ready( function () {
+        $('#myTable').DataTable();
+    } );
 </script>

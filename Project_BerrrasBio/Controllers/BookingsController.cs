@@ -49,12 +49,13 @@ namespace Project_BerrrasBio.Controllers
         }
 
         //GET: Bookings/Create
-        public async Task<IActionResult> Create(int id, int price)
+        public async Task<IActionResult> Create(int id, decimal price)
         {
             Booking book = new Booking();
             book.ShowId = id;
+            book.TotalPrice = price;
 
-            ViewBag.pricePerTicket = price;
+
             return View(book);
         }
 
@@ -63,11 +64,12 @@ namespace Project_BerrrasBio.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ShowId,NumOfSeats")] Booking booking, int price)
+        public async Task<IActionResult> Create([Bind("ShowId,NumOfSeats    ")] Booking booking, decimal price)
         {
 
             if (ModelState.IsValid)
             {
+                booking.TotalPrice = price * booking.NumOfSeats;
                 var showing = _context.Show
                     .Where(s => s.Id == booking.ShowId)
                     .Include(s => s.Bookings)
@@ -88,10 +90,17 @@ namespace Project_BerrrasBio.Controllers
             }
             return RedirectToAction("Index", "Show");
         }
+
+
+        // Action method that return an booking confirmation view if the booking was successfull
+
         public IActionResult Success(Booking booking)
         {
             return View(booking);
         }
+
+        // Action method that return an error view if there is not enought places in the salon for the ticket that the customer wants
+
         public IActionResult Error(Booking booking)
         {
             return View(booking);

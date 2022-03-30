@@ -36,6 +36,9 @@ namespace Project_BerrrasBio.Migrations
                     b.Property<int>("ShowId")
                         .HasColumnType("int");
 
+                    b.Property<decimal>("TotalPrice")
+                        .HasColumnType("decimal(18,2)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ShowId");

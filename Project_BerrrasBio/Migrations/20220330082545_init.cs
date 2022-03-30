@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Project_BerrrasBio.Migrations
 {
-    public partial class inti : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -17,8 +17,7 @@ namespace Project_BerrrasBio.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CoverUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: true)
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -47,7 +46,9 @@ namespace Project_BerrrasBio.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     MovieId = table.Column<int>(type: "int", nullable: false),
                     SalonId = table.Column<int>(type: "int", nullable: false),
-                    ShowTime = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    ShowTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    AvailableSeats = table.Column<int>(type: "int", nullable: true),
+                    PricePerTicket = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -73,17 +74,12 @@ namespace Project_BerrrasBio.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ShowId = table.Column<int>(type: "int", nullable: false),
-                    NumOfSeats = table.Column<int>(type: "int", nullable: false),
-                    MovieId = table.Column<int>(type: "int", nullable: true)
+                    TotalPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    NumOfSeats = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Booking", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Booking_Movie_MovieId",
-                        column: x => x.MovieId,
-                        principalTable: "Movie",
-                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Booking_Show_ShowId",
                         column: x => x.ShowId,
@@ -91,11 +87,6 @@ namespace Project_BerrrasBio.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Booking_MovieId",
-                table: "Booking",
-                column: "MovieId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Booking_ShowId",

@@ -6,7 +6,7 @@ namespace Project_BerrrasBio.Models
 {
     public partial class Show
     {
-        
+        //constructor for show object
         public Show()
         {
             Bookings = new HashSet<Booking>();
@@ -15,6 +15,7 @@ namespace Project_BerrrasBio.Models
         /// <summary>
         /// Our property for our Show object for out application
         /// </summary>
+        /// 
         public int Id { get; set; }
         public int MovieId { get; set; }
         public int SalonId { get; set; }
