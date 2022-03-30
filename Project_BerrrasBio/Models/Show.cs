@@ -24,7 +24,7 @@ namespace Project_BerrrasBio.Models
 
         [Display(Name = "Price per Ticket")]
         [DataType(DataType.Currency)]
-        public int PricePerTicket { get; set; }
+        public decimal PricePerTicket { get; set; }
 
         // Relationships
         public virtual Movie? Movie { get; set; }
